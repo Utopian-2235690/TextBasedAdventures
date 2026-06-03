@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace TextBasedAdventure
 {
-    internal class Program
+    internal abstract class Room
     {
-        static void Main(string[] args)
-        {
-            Choices choices = new Choices();
-            choices.Main();
-
-        }
+        public abstract void StartRoom();
     }
 }
