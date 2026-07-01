@@ -16,17 +16,15 @@ namespace TextBasedAdventure
 
             while (!validInput)
             {
+                Console.Clear();
                 Console.WriteLine("1 = Start game");
-                Console.WriteLine("2 = Exit game");
-                Console.WriteLine(" ");
-
+                Console.WriteLine("2 = Exit game\n");
+ 
                 string input = Console.ReadLine();
                 int.TryParse(input, out int choice);
 
-
                 if (choice == 1)
                 {
-                    Console.Clear();
                     rooms.Rooms();
                 }
                 else if (choice == 2)

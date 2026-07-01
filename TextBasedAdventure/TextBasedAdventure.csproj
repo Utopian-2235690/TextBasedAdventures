@@ -46,7 +46,7 @@
     <Compile Include="AllRooms.cs" />
     <Compile Include="Choices.cs" />
     <Compile Include="FirstRoom.cs" />
-    <Compile Include="placeholder.cs" />
+    <Compile Include="Library.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />

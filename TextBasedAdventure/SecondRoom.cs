@@ -8,36 +8,62 @@ namespace TextBasedAdventure
 {
     internal class SecondRoom : Room
     {
+        private int _injuredLevel = 0;
+
+
         public override void StartRoom()
         {
-            Console.Clear();
-            Console.WriteLine("Je gebruikt de sleutel en opent de deur.");
-            Console.WriteLine("\nPress any key...");
-            Console.ReadKey();
-
             bool loop = true;
             bool kamer2A = true;
             bool kamer3A = true;
             bool kamer4A = true;
             bool wallOpen = false;
             bool steen = false;
-            int boomDurability = 3;
+            int boomDurability = 4;
             bool boomDur = false;
             Choices choices = new Choices();
 
             while (loop)
             {
                 Console.Clear();
+                //STATUS SYSTEEM
+
+                string status = "nun";
+                string currentRoom = "Gang";
+
+                if (_injuredLevel == 0)
+                {
+                    status = "Healthy";
+                }
+                else if (_injuredLevel == 1)
+                {
+                    status = "Slightly injured";
+                }
+                else if (_injuredLevel == 2)
+                {
+                    status = "Heavily injured";
+                }
+
+                Console.WriteLine("----- Stats -----");
+                Console.WriteLine($"Status: {status}");
+                Console.WriteLine($"Room: {currentRoom}\n");
+
                 Console.WriteLine("Je staat in een lange gang. Er zijn deuren aan beide kanten, wat doe je?");
                 Console.WriteLine("\n1. Loop naar eerste linker deur");
                 Console.WriteLine("2. Loop naar tweede linker deur");
                 Console.WriteLine("\n3. Loop naar eerste rechter deur");
-                Console.WriteLine("4. Loop naar tweede rechter deur");
-                Console.WriteLine(" ");
+                Console.WriteLine("4. Loop naar tweede rechter deur\n");
 
                 string actionInput = Console.ReadLine();
 
                 int.TryParse(actionInput, out int answer);
+
+                /*
+                kamer 1: ln 38 - Locked/Geen path
+                kamer 2: ln 53 - Death
+                kamer 3: ln 89 - Library path
+                kamer 4: ln 143 - Kamer met boom/escape 1
+                */
 
                 if (answer == 1)
                 {
@@ -127,12 +153,24 @@ namespace TextBasedAdventure
                         else if (answer3 == 3 && wallOpen)
                         {
                             Console.Clear();
-                            Console.WriteLine("Je kruipt door het gat in de muur..");
-                            Console.WriteLine("\nPress any key...");
-                            Console.ReadKey();
+                            Console.WriteLine("Je staat voor het gat in de muur, wat doe je?");
+                            Console.WriteLine("\n1. Kruip door het gat");
+                            Console.WriteLine("2. Ga terug\n");
 
-                            kamer3A = false;
-                            loop = false;
+                            string actionInputWall = Console.ReadLine();
+
+                            int.TryParse(actionInputWall, out int answerWall);
+
+                            if (answerWall == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Je kruipt door het gat..");
+                                Console.WriteLine("\nPress any key...");
+                                Console.ReadKey();
+                                kamer3A = false;
+                                loop = false;
+                            }
+                            
                         }
                     }
 
@@ -149,6 +187,28 @@ namespace TextBasedAdventure
                     while (kamer4A)
                     {
                         Console.Clear();
+                        //STATUS SYSTEEM
+
+                        status = "nun";
+                        currentRoom = "Gang";
+
+                        if (_injuredLevel == 0)
+                        {
+                            status = "Healthy";
+                        }
+                        else if (_injuredLevel == 1)
+                        {
+                            status = "Slightly injured";
+                        }
+                        else if (_injuredLevel == 2)
+                        {
+                            status = "Heavily injured";
+                        }
+
+                        Console.WriteLine("----- Stats -----");
+                        Console.WriteLine($"Status: {status}");
+                        Console.WriteLine($"Room: {currentRoom}\n");
+
                         Console.WriteLine("Je staat voor een grote boom in het midden van een verticaal lange kamer, " +
                             "\n er zitten kiezelstenen overal op de vloer, wat doe je?");
                         if (steen)
@@ -178,6 +238,7 @@ namespace TextBasedAdventure
 
                         int.TryParse(actionInput4, out int answer4);
 
+
                         if (answer4 == 1)
                         {
                             Console.Clear();
@@ -194,6 +255,7 @@ namespace TextBasedAdventure
                             Console.WriteLine("\nPress any key...");
                             Console.ReadKey();
                         }
+                        //if statements om te checken of je een kiezelsteen hebt en hoeveel je gegooit hebt
                         else if (answer4 == 3 && !steen)
                         {
                             Console.Clear();
@@ -206,21 +268,29 @@ namespace TextBasedAdventure
                         {
                             Console.Clear();
                             Console.WriteLine("Je gooit de kiezelsteen tegen de stam van de boom aan.");
-                            if (boomDurability == 3)
+                            if (boomDurability == 4)
                             {
                                 Console.WriteLine("Je hoort een slot open gaan, misschien gaat er iets open als je nog een steen gooit..");
                                 steen = false;
                             }
-                            else if (boomDurability == 2)
+                            else if (boomDurability == 3)
                             {
                                 Console.WriteLine("Je hoort een tweede slot open gaan, probeer nog een steen te gooien..");
                                 steen = false;
                             }
-                            else if (boomDurability == 1)
+                            else if (boomDurability == 2)
                             {
                                 Console.WriteLine("Je hoort een derde slot open gaan, een muur valt opeens uit elkaar..");
                                 steen = false;
                                 boomDur = true;
+                            }
+                            else if(boomDurability == 1)
+                            {
+                                //if statement om je te injuren als je vier kiezelstenen gooit
+
+                                Console.WriteLine("De steen weerkaatst terug en raakt je op je voorhoofd.\n(1+ Damage)");
+                                _injuredLevel++;
+                                steen = false;
                             }
                             else if (boomDurability < 1)
                             {
@@ -235,15 +305,35 @@ namespace TextBasedAdventure
                         else if (answer4 == 5 && boomDur)
                         {
                             Console.Clear();
-                            Console.WriteLine("Je loopt naar de muur die net uit elkaar viel en kruipt door het gat heen.");
-                            Console.WriteLine("\nPress any key...");
-                            Console.ReadKey();
+                            Console.WriteLine("Je loopt naar de muur die net uit elkaar viel, wil je door het gat in de muur kruipen?");
+                            Console.WriteLine("\n1. Kruip door het gat");
+                            Console.WriteLine("2. Ga terug");
+
+                            string actionInput5 = Console.ReadLine();
+
+                            int.TryParse(actionInput5, out int answer5);
+
+                            if (answer5 == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Je kruipt door het gat..");
+                                Console.WriteLine("Je bevindt jezelf in een weiland! Je bent ontsnapt.\n");
+                                Console.WriteLine("Je hebt gewonnen!");
+
+                                Console.WriteLine("\nPress any key...");
+                                Console.ReadKey();
+
+                                choices.Main();
+                                kamer4A = false;
+                                loop = false;
+                            }
+                                
                         }
                     }
                 }
 
-
             }
         }
+
     }
 }

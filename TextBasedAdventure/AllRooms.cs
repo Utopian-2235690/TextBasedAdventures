@@ -12,9 +12,12 @@ namespace TextBasedAdventure
         {
             FirstRoom first = new FirstRoom();
             SecondRoom second = new SecondRoom();
+            Library library = new Library();
 
             first.StartRoom();
             second.StartRoom();
+            library.StartRoom();
+
         }
     }
 }

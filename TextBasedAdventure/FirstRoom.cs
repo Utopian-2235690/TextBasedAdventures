@@ -8,18 +8,31 @@ namespace TextBasedAdventure
 {
     internal class FirstRoom : Room
     {
+        private bool _roomActive;
+
         public override void StartRoom()
         {
             bool loop = true;
             bool key = false;
+
+            
             while (loop)
             {
+                _roomActive = true;
                 Console.Clear();
+                //STATUS SYSTEEM
+
+                string status = "Healthy";
+                string currentRoom = "Onbekende slaapkamer";
+
+                Console.WriteLine("----- Stats -----");
+                Console.WriteLine($"Status: {status}");
+                Console.WriteLine($"Room: {currentRoom}\n");
+
                 Console.WriteLine("Je wordt wakker op een bed in een vreemde kamer. Je staat op, wat doe je?");
                 Console.WriteLine("\n1. Loop naar de deur");
                 Console.WriteLine("2. Open het nachtkastje");
-                Console.WriteLine("3. Examineer de boekenkast");
-                Console.WriteLine(" ");
+                Console.WriteLine("3. Examineer de boekenkast\n");
 
                 string actionInput = Console.ReadLine();
 
@@ -38,7 +51,13 @@ namespace TextBasedAdventure
                     }
                     else
                     {
+                        Console.Clear();
+                        Console.WriteLine("Je gebruikt de sleutel en opent de deur.");
+                        Console.WriteLine("\nPress any key...");
+                        Console.ReadKey();
+
                         loop = false;
+                        _roomActive = false;
                     }
                 }
                 else if (answer == 2)
@@ -51,6 +70,7 @@ namespace TextBasedAdventure
                         Console.WriteLine("Er zit een sleutel in het nachtkastje, je pakt de sleutel.");
                         Console.WriteLine("\nPress any key...");
                         Console.ReadKey();
+
                         key = true;
                     }
                     else
@@ -71,7 +91,6 @@ namespace TextBasedAdventure
 
             }
         }
-
 
     }
 }
